@@ -32,5 +32,6 @@ namespace BMIUnitTest
 			BMI bmi = new BMI() { WeightStones = 45, WeightPounds = 0, HeightFeet = 6, HeightInches = 2 };
 			Assert.AreEqual(bmi.BMICategory, BMICategory.Obese);
 		}
+
 	}
 }
