@@ -27,7 +27,7 @@ steps:
   inputs:
    verbose: false
 
-- script: './node_modules/.bin/node-sass BMICalculator.Web/wwwroot --output BMICalculator.Web/wwwroot'
+- script: './node_modules/.bin/node-sass BMICalculator/wwwroot --output BMICalculator/wwwroot'
   displayName: 'Compile Sass assets'
 
 - task: gulp@1
@@ -35,7 +35,7 @@ steps:
 
 - script: 'echo "$(Build.DefinitionName), $(Build.BuildId), $(Build.BuildNumber)" > buildinfo.txt'
   displayName: 'Write build info'
-  workingDirectory: BMICalculator.Web/wwwroot
+  workingDirectory: BMICalculator/wwwroot
 
 - task: DotNetCoreCLI@2
   displayName: 'Restore project dependencies'
