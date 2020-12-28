@@ -7,7 +7,7 @@ trigger:
 - '*'
 
 pool:
-  vmImage: 'ubuntu-18.04'
+  vmImage: 'Windows 2016'
   demands:
   - npm
 
@@ -26,15 +26,15 @@ steps:
   inputs:
    verbose: false
 
-- script: './node_modules/.bin/node-sass BMICalculator/BMICalculator/wwwroot --output BMICalculator/BMICalculator/wwwroot'
-  displayName: 'Compile Sass assets'
+##- script: './node_modules/.bin/node-sass BMICalculator/BMICalculator/wwwroot --output BMICalculator/BMICalculator/wwwroot'
+  ##displayName: 'Compile Sass assets'
 
-- task: gulp@1
-  displayName: 'Run gulp tasks'
+##- task: gulp@1
+  ##displayName: 'Run gulp tasks'
 
-- script: 'echo "$(Build.DefinitionName), $(Build.BuildId), $(Build.BuildNumber)" > buildinfo.txt'
-  displayName: 'Write build info'
-  workingDirectory: BMICalculator/BMICalculator/wwwroot
+##- script: 'echo "$(Build.DefinitionName), $(Build.BuildId), $(Build.BuildNumber)" > buildinfo.txt'
+  ##displayName: 'Write build info'
+##  workingDirectory: BMICalculator/BMICalculator/wwwroot
 
 - task: DotNetCoreCLI@2
   displayName: 'Restore project dependencies'
