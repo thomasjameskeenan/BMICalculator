@@ -26,7 +26,7 @@ steps:
   inputs:
    verbose: false
 
-- script: './node_modules/.bin/node-sass Tailspin.SpaceGame.Web/wwwroot --output Tailspin.SpaceGame.Web/wwwroot'
+- script: './node_modules/.bin/node-sass BMICalculator/BMICalculator/wwwroot --output BMICalculator/BMICalculator/wwwroot'
   displayName: 'Compile Sass assets'
 
 - task: gulp@1
@@ -34,7 +34,7 @@ steps:
 
 - script: 'echo "$(Build.DefinitionName), $(Build.BuildId), $(Build.BuildNumber)" > buildinfo.txt'
   displayName: 'Write build info'
-  workingDirectory: BMICalculator/wwwroot
+  workingDirectory: BMICalculator/BMICalculator/wwwroot
 
 - task: DotNetCoreCLI@2
   displayName: 'Restore project dependencies'
