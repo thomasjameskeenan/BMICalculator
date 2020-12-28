@@ -8,7 +8,7 @@ const gulp = require("gulp"),
       uglify = require("gulp-uglify");
 
 const paths = {
-  webroot: "./Tailspin.SpaceGame.Web/wwwroot/"
+  webroot: "./BMICalculator/BMICalculator/wwwroot/"
 };
 
 paths.js = paths.webroot + "js/**/*.js";
