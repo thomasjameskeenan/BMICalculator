@@ -2,52 +2,61 @@
 # Build and test ASP.NET Core projects targeting .NET Core.
 # Add steps that run tests, create a NuGet package, deploy, and more:
 # https://docs.microsoft.com/azure/devops/pipelines/languages/dotnet-core
+# Commit to Git
 
 trigger:
 - '*'
 
 pool:
-  vmImage: 'Ubuntu-18.04'
-  demands:
-  - npm
+  vmImage: 'VS2017-Win2016'
+  ##demands:
+  ##- npm
 
 variables:
+  solution: '**/*.sln'
+  buildPlatform: 'Any CPU'
   buildConfiguration: 'Release'
+  wwwrootDir: 'BMICalculator/BMICalculator.Web/wwwroot'
+  ###dotnetSdkVersion: '2.0.0'
 
 steps:
-- task: UseDotNet@2
-  displayName: 'Use .NET Core SDK 3.1.300'
-  inputs:
-    packageType: sdk
-    version: 3.1.300
+- task: NuGetToolInstaller@0
 
-- task: Npm@1
-  displayName: 'Run npm install'
-  inputs:
-   verbose: false
+#- task: NuGetCommand@2
+  #inputs:
+  #  restoreSolution: '$(solution)'
 
-##- script: './node_modules/.bin/node-sass BMICalculator/BMICalculator/wwwroot --output BMICalculator/BMICalculator/wwwroot'
-  ##displayName: 'Compile Sass assets'
+#- task: UseDotNet@2
+ # displayName: 'Use .NET Core sdk'
+  #inputs:
+   # packageType: sdk
+    #version: 5.x
+    #installationPath: $(Agent.ToolsDirectory)/dotnet
 
-##- task: gulp@1
-  ##displayName: 'Run gulp tasks'
+#- script: dotnet build --configuration $(buildConfiguration)
+ # displayName: 'dotnet build $(buildConfiguration)'
 
-##- script: 'echo "$(Build.DefinitionName), $(Build.BuildId), $(Build.BuildNumber)" > buildinfo.txt'
-  ##displayName: 'Write build info'
-##  workingDirectory: BMICalculator/BMICalculator/wwwroot
+#- task: UseDotNet@2
+ # displayName: 'Use .NET Core SDK 2.0.000'
+  #inputs:
+   # packageType: sdk
+    #version: '2.0.0'
 
-- task: DotNetCoreCLI@2
-  displayName: 'Restore project dependencies'
-  inputs:
-    command: 'restore'
-    projects: '**/*.csproj'
 
-- task: DotNetCoreCLI@2
-  displayName: 'Build the project - Release'
-  inputs:
-    command: 'build'
-    arguments: '--no-restore --configuration Release'
-    projects: '**/*.csproj'
+##- task: UseDotNet@2
+    ##inputs:
+     ## version: '2.0.0'
+      ##packageType: runtime
+
+##- task: UseDotNet@2
+ ## inputs:
+    ##version: '3.1.300'
+    ##includePreviewVersions: true # Required for preview versions
+
+##- task: UseDotNet@2
+    ##displayName: 'Use .NET Core SDK $(dotnetSdkVersion)'
+    ##inputs:
+    ##version: '$(dotnetSdkVersion)'
 
 - task: SonarCloudPrepare@1
   inputs:
@@ -57,8 +66,49 @@ steps:
     projectKey: 'X00170681_BMICalculator'
     projectName: 'BMICalculator'
 
-- script: dotnet build --configuration $(buildConfiguration)
-  displayName: 'dotnet build $(buildConfiguration)'
+- task: Npm@1
+  displayName: 'Run npm install'
+  inputs:
+   verbose: false
+
+- task: DotNetCoreCLI@2
+  displayName: 'Restore project dependencies'
+  inputs:
+    command: 'restore'
+    projects: '**/*.csproj'
+  
+- task: VSBuild@1
+  inputs: 
+    solution: '$(solution)'
+    platform: '$(buildPlatform)'
+    configuration: '$(buildConfiguration)'
+
+#- task: DotNetCoreCLI@2
+ # displayName: Build
+  #inputs:
+   # command: build
+    #projects: '**/*.csproj'
+    #arguments: '--configuration $(buildConfiguration)' # Update this to match your need
+
+- task: DotNetCoreCLI@2
+  inputs:
+    command: test
+    projects: '**/*UnitTestBMI/*.csproj'
+    arguments: '--configuration $(buildConfiguration)'
+
+- task: DotNetCoreCLI@2
+  displayName: 'Publish the project - $(buildConfiguration)'
+  inputs:
+    command: 'publish'
+    projects: '**/*.csproj'
+    publishWebProjects: false
+    arguments: '--no-build --configuration $(buildConfiguration) --output $(Build.ArtifactStagingDirectory)/$(buildConfiguration)'
+    zipAfterPublish: true
+
+- task: PublishBuildArtifacts@1
+  displayName: 'Publish Artifact: drop'
+  condition: succeeded()
+
 
 
 
