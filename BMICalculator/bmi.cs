@@ -1,6 +1,7 @@
 ﻿// model classes for BMI calculator
 // GC
 
+using Microsoft.AspNetCore.Razor.TagHelpers;
 using System;
 using System.ComponentModel.DataAnnotations;
 
