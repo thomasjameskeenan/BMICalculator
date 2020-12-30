@@ -2,7 +2,11 @@
 # Build and test ASP.NET Core projects targeting .NET Core.
 # Add steps that run tests, create a NuGet package, deploy, and more:
 # https://docs.microsoft.com/azure/devops/pipelines/languages/dotnet-core
+<<<<<<< HEAD
 # Commit to Git
+=======
+# Run the pipelin
+>>>>>>> 97a31cfd3ef2f27f35d042c4858a976f57612d75
 
 trigger:
 - '*'
@@ -16,7 +20,11 @@ variables:
   solution: '**/*.sln'
   buildPlatform: 'Any CPU'
   buildConfiguration: 'Release'
+<<<<<<< HEAD
   wwwrootDir: 'BMICalculator/BMICalculator.Web/wwwroot'
+=======
+  wwwrootDir: 'BMICalculator.Web/wwwroot'
+>>>>>>> 97a31cfd3ef2f27f35d042c4858a976f57612d75
   ###dotnetSdkVersion: '2.0.0'
 
 steps:
@@ -71,6 +79,12 @@ steps:
   inputs:
    verbose: false
 
+<<<<<<< HEAD
+=======
+#- script: './node_modules/.bin/node-sass $(wwwrootDir) --output $(wwwrootDir)'
+ # displayName: 'Compile Sass assets'
+
+>>>>>>> 97a31cfd3ef2f27f35d042c4858a976f57612d75
 - task: DotNetCoreCLI@2
   displayName: 'Restore project dependencies'
   inputs:
@@ -104,6 +118,14 @@ steps:
     publishWebProjects: false
     arguments: '--no-build --configuration $(buildConfiguration) --output $(Build.ArtifactStagingDirectory)/$(buildConfiguration)'
     zipAfterPublish: true
+<<<<<<< HEAD
+=======
+
+- task: PublishBuildArtifacts@1
+  displayName: 'Publish Artifact: drop'
+  condition: succeeded()
+
+>>>>>>> 97a31cfd3ef2f27f35d042c4858a976f57612d75
 
 - task: PublishBuildArtifacts@1
   displayName: 'Publish Artifact: drop'
