@@ -36,7 +36,7 @@ namespace BMIUnitTest
 		public void BMInfectionRisk_IntUnderWeightRange_Under70_LowRiskReturn()
 		{
 			BMI bmi = new BMI() { WeightStones = 7, WeightPounds = 0, HeightFeet = 6, HeightInches = 2 };
-			int age =301;
+			int age =30;
 			Assert.AreEqual(bmi.infectionRiskLevel, InfectionRiskLevel.Low);
 		}
 		[TestMethod]
